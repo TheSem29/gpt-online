@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: gpt_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_URL=mysql+pymysql://user:password@db:3306/gptdb
+      - SESSION_SECRET=change_me
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: gpt_frontend
+    ports:
+      - "5173:80"
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8.0
+    container_name: gpt_db
+    environment:
+      MYSQL_ROOT_PASSWORD: example_root_pass
+      MYSQL_DATABASE: gptdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+
+volumes:
+  db_data:

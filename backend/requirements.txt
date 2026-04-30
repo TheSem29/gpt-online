@@ -1,0 +1,9 @@
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+sqlalchemy==2.0.23
+pydantic==2.5.2
+python-dotenv==1.0.0
+# For MySQL you may install pymysql or mysqlclient
+pymysql==1.1.0
+# Optional: httpx for real OpenRouter calls
+httpx==0.26.0
