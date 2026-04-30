@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from fastapi import FastAPI, Depends, Request, Response, HTTPException
 from fastapi.responses import JSONResponse
 from starlette.middleware.sessions import SessionMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from .database import get_db, SessionLocal
 from . import models, schemas, routers
@@ -29,5 +30,5 @@ def get_db_dep():
     finally:
         db.close()
 
-# Include routers
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 app.include_router(routers.router)
